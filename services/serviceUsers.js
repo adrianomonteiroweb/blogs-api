@@ -6,8 +6,8 @@ const { alreadyRegistered } = require('../utils/messages');
 
 const serviceUsersCreate = async (user) => {
   const { error } = checkUserSchema.validate(user);
-  
-  const passwordMSG = error && error.message.replace(' at least', '');
+
+  const passwordMSG = error && error.message.replace(' at least 6', ' 6');
 
   if (error) return errorConstructor(status.BAD_REQUEST, passwordMSG);
 
