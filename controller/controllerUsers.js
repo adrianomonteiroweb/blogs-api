@@ -1,5 +1,5 @@
 const { serviceLogin } = require('../services/serviceLogin');
-const { serviceUsersCreate, serviceSearchUsers } = require('../services/serviceUsers');
+const { serviceUsersCreate, serviceSearchUsers, serviceSearchById } = require('../services/serviceUsers');
 const status = require('../utils/codes');
 const { alreadyRegistered, internatServerError } = require('../utils/messages');
 
@@ -8,6 +8,7 @@ const controllerUserCreate = async (req, res, next) => {
   let user;
   try {
     user = await serviceUsersCreate({ displayName, email, password, image });
+    console.log(user);
   } catch (err) {
     console.error(err.message);
     err.status = status.UNAUTHORIZED;
@@ -44,12 +45,31 @@ const controllerSearchUsers = async (req, res, next) => {
     err.message = { message: internatServerError };
     next(err);
   }
-  // if (users.status) return res.status(users.status).json({ message: users.message });
+
   return res.status(status.OK).json(users);
+};
+
+const controllerSearchById = async (req, res, next) => {
+  const { id } = req.params;
+  let users;
+
+  try {
+    users = await serviceSearchById(id);
+  } catch (err) {
+    console.error(err.message);
+    err.status = status.UNAUTHORIZED;
+    err.message = { message: internatServerError };
+    next(err);
+  }
+
+  return users
+  ? res.status(status.OK).json(users)
+  : res.status(status.NOT_FOUND).json({ message: 'User does not exist' });
 };
 
 module.exports = {
   controllerUserCreate,
   controllerLogin,
   controllerSearchUsers,
+  controllerSearchById,
 };

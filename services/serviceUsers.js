@@ -30,7 +30,14 @@ const serviceSearchUsers = async () => {
   return users;
 };
 
+const serviceSearchById = async (id) => {
+  const users = await User.findByPk(id);
+  
+  return users;
+};
+
 module.exports = {
   serviceUsersCreate,
   serviceSearchUsers,
+  serviceSearchById,
 };
