@@ -1,5 +1,5 @@
 const { serviceLogin } = require('../services/serviceLogin');
-const { serviceUsersCreate } = require('../services/serviceUsers');
+const { serviceUsersCreate, serviceSearchUsers } = require('../services/serviceUsers');
 const status = require('../utils/codes');
 const { alreadyRegistered, internatServerError } = require('../utils/messages');
 
@@ -34,7 +34,22 @@ const controllerLogin = async (req, res, next) => {
   return res.status(status.OK).json(login);
 };
 
+const controllerSearchUsers = async (req, res, next) => {
+  let users;
+  try {
+    users = await serviceSearchUsers();
+  } catch (err) {
+    console.error(err.message);
+    err.status = status.UNAUTHORIZED;
+    err.message = { message: internatServerError };
+    next(err);
+  }
+  // if (users.status) return res.status(users.status).json({ message: users.message });
+  return res.status(status.OK).json(users);
+};
+
 module.exports = {
   controllerUserCreate,
   controllerLogin,
+  controllerSearchUsers,
 };

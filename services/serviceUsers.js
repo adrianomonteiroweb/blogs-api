@@ -24,6 +24,13 @@ const serviceUsersCreate = async (user) => {
   return userCreated;
 };
 
+const serviceSearchUsers = async () => {
+  const users = await User.findAll();
+
+  return users;
+};
+
 module.exports = {
   serviceUsersCreate,
+  serviceSearchUsers,
 };
