@@ -15,7 +15,6 @@ const controllerUserCreate = async (req, res, next) => {
   let user;
   try {
     user = await serviceUsersCreate({ displayName, email, password, image });
-    console.log(user);
   } catch (err) {
     console.error(err.message);
     err.status = status.UNAUTHORIZED;
