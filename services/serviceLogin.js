@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const { checkLoginSchema } = require('./schemasValidation');
 const errorConstructor = require('../utils/functions/index');
 const status = require('../utils/codes');
-const { User } = require('../models');
+const { Users } = require('../models');
 const { invalidFields } = require('../utils/messages');
 
 const SECRET = 'secret';
@@ -14,7 +14,7 @@ const serviceLogin = async (requestBody) => {
 
   if (error) return errorConstructor(status.BAD_REQUEST, error.message);
 
-  const searchEmail = await User.findAll({
+  const searchEmail = await Users.findAll({
     where: {
       email: requestBody.email,
     },

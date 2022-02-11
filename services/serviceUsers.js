@@ -1,4 +1,4 @@
-const { User } = require('../models');
+const { Users } = require('../models');
 const { checkUserSchema } = require('./schemasValidation');
 const errorConstructor = require('../utils/functions/index');
 const status = require('../utils/codes');
@@ -11,27 +11,27 @@ const serviceUsersCreate = async (user) => {
 
   if (error) return errorConstructor(status.BAD_REQUEST, passwordMSG);
 
-  const searchEmail = await User.findAll({
+  const searchEmail = await Users.findOne({
     where: {
       email: user.email,
     },
   });
 
-  if (searchEmail.length > 0) return errorConstructor(status.CONFLICT, alreadyRegistered);
+  if (searchEmail) return errorConstructor(status.CONFLICT, alreadyRegistered);
 
-  const userCreated = await User.create(user);
+  const userCreated = await Users.create(user);
 
   return userCreated;
 };
 
 const serviceSearchUsers = async () => {
-  const users = await User.findAll();
+  const users = await Users.findAll();
 
   return users;
 };
 
 const serviceSearchById = async (id) => {
-  const users = await User.findByPk(id);
+  const users = await Users.findByPk(id);
   
   return users;
 };
