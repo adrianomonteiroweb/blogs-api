@@ -33,7 +33,7 @@ const controllerLogin = async (req, res, next) => {
     login = await serviceLogin(req.body);
   } catch (err) {
     console.error(err.message);
-    err.status = status.UNAUTHORIZED;
+    err.status = status.INTERNAL_SERVER_ERROR;
     err.message = { message: internatServerError };
     next(err);
   }
@@ -51,7 +51,6 @@ const controllerSearchUsers = async (req, res, next) => {
     err.message = { message: internatServerError };
     next(err);
   }
-
   return res.status(status.OK).json(users);
 };
 

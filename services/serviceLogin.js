@@ -16,13 +16,13 @@ const serviceLogin = async (requestBody) => {
 
   if (error) return errorConstructor(status.BAD_REQUEST, error.message);
 
-  const searchEmail = await Users.findAll({
+  const searchEmail = await Users.findOne({
     where: {
       email: requestBody.email,
     },
   });
 
-  if (!searchEmail.length > 0) return errorConstructor(status.BAD_REQUEST, invalidFields);
+  if (!searchEmail) return errorConstructor(status.BAD_REQUEST, invalidFields);
 
   const { password: passBD, ...userWithoutPassword } = searchEmail;
   const token = jwt.sign({ data: userWithoutPassword }, SECRET, EXPIRES);
