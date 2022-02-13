@@ -18,7 +18,12 @@ const checkLoginSchema = Joi.object({
   password: Joi.string().min(6).required(),
 });
 
+const checkCategorySchema = Joi.object({
+  name: Joi.string().required(),
+});
+
 module.exports = {
   checkUserSchema,
   checkLoginSchema,
+  checkCategorySchema,
 };
