@@ -13,6 +13,13 @@ const serviceCategoryCreate = async (requestBody) => {
   return _previousDataValues;
 };
 
+const serviceCategoryGetAll = async () => {
+  const allCategories = await Categories.findAll();
+
+  return allCategories;
+};
+
 module.exports = {
   serviceCategoryCreate,
+  serviceCategoryGetAll,
 };
