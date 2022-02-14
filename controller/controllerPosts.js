@@ -1,4 +1,4 @@
-const { servicePostCreate } = require('../services/servicePosts');
+const { servicePostCreate, servicePostsSearch } = require('../services/servicePosts');
 const { serviceGetUserByEmail } = require('../services/serviceUsers');
 const status = require('../utils/codes');
 const { internatServerError } = require('../utils/messages');
@@ -23,6 +23,23 @@ const controllerPostCreate = async (req, res, next) => {
   : res.status(status.CREATED).json(postCreated);
 };
 
+const controllerPostsSearch = async (_req, res, next) => {
+  let allPosts;
+  try {
+    allPosts = await servicePostsSearch();
+  } catch (error) {
+    console.error(error.message);
+    error.status = status.INTERNAL_SERVER_ERROR;
+    error.message = internatServerError;
+    return next(error);
+  }
+
+  return allPosts.status
+  ? res.status(allPosts.status).json({ message: allPosts.message })
+  : res.status(status.OK).json(allPosts);
+};
+
 module.exports = {
   controllerPostCreate,
+  controllerPostsSearch,
 };
