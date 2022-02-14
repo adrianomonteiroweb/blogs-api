@@ -4,7 +4,11 @@ const {
   controllerCategoryCreate,
   controllerCategoryGetAll,
 } = require('../controller/controllerCategories');
-const { controllerPostCreate, controllerPostsSearch } = require('../controller/controllerPosts');
+const {
+  controllerPostCreate,
+  controllerPostsSearch,
+  controllerPostSearchById,
+} = require('../controller/controllerPosts');
 const {
   controllerUserCreate,
   controllerLogin,
@@ -24,5 +28,6 @@ routes.get('/categories', auth, controllerCategoryGetAll);
 
 routes.post('/post', auth, controllerPostCreate);
 routes.get('/post', auth, controllerPostsSearch);
+routes.get('/post/:id', auth, controllerPostSearchById);
 
 module.exports = routes;

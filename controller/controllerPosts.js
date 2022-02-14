@@ -1,4 +1,8 @@
-const { servicePostCreate, servicePostsSearch } = require('../services/servicePosts');
+const {
+  servicePostCreate,
+  servicePostsSearch,
+  servicePostSearchById,
+} = require('../services/servicePosts');
 const { serviceGetUserByEmail } = require('../services/serviceUsers');
 const status = require('../utils/codes');
 const { internatServerError } = require('../utils/messages');
@@ -39,7 +43,24 @@ const controllerPostsSearch = async (_req, res, next) => {
   : res.status(status.OK).json(allPosts);
 };
 
+const controllerPostSearchById = async (req, res, next) => {
+  let post;
+  try {
+    post = await servicePostSearchById(req.params.id);
+  } catch (error) {
+    console.error(error.message);
+    error.status = status.INTERNAL_SERVER_ERROR;
+    error.message = internatServerError;
+    return next(error);
+  }
+
+  return post.status
+  ? res.status(post.status).json({ message: post.message })
+  : res.status(status.OK).json(post);
+};
+
 module.exports = {
   controllerPostCreate,
   controllerPostsSearch,
+  controllerPostSearchById,
 };

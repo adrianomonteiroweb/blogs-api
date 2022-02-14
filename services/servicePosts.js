@@ -28,7 +28,22 @@ const servicePostsSearch = async () => {
   return allPosts;
 };
 
+const servicePostSearchById = async (id) => {
+  const post = await BlogPosts.findOne({
+    where: { id },
+    include: [
+      { model: Users, as: 'user', attributes: { exclude: ['password'] } },
+      { model: Categories, as: 'categories', through: { attributes: [] } },
+    ],
+  });
+
+  if (!post) return errorConstructor(status.NOT_FOUND, 'Post does not exist');
+
+  return post;
+};
+
 module.exports = {
   servicePostCreate,
   servicePostsSearch,
+  servicePostSearchById,
 };
