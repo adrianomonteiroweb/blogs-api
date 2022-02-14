@@ -22,8 +22,15 @@ const checkCategorySchema = Joi.object({
   name: Joi.string().required(),
 });
 
+const checkPostSchema = Joi.object({
+  title: Joi.required(),
+  content: Joi.required(),
+  categoryIds: Joi.required(),
+});
+
 module.exports = {
   checkUserSchema,
   checkLoginSchema,
   checkCategorySchema,
+  checkPostSchema,
 };

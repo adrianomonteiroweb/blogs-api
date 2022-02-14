@@ -1,6 +1,10 @@
 const routes = require('express').Router();
 
-const { controllerCategoryCreate, controllerCategoryGetAll } = require('../controller/controllerCategories');
+const {
+  controllerCategoryCreate,
+  controllerCategoryGetAll,
+} = require('../controller/controllerCategories');
+const { controllerPostCreate } = require('../controller/controllerPosts');
 const {
   controllerUserCreate,
   controllerLogin,
@@ -17,5 +21,7 @@ routes.get('/user/:id', auth, controllerSearchById);
 
 routes.post('/categories', auth, controllerCategoryCreate);
 routes.get('/categories', auth, controllerCategoryGetAll);
+
+routes.post('/post', auth, controllerPostCreate);
 
 module.exports = routes;
